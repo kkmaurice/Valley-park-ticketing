@@ -257,7 +257,7 @@ class _MainScreenState extends State<MainScreen> {
                                 onTap: () {
                                   context
                                       .read<Controller>()
-                                      .addToPaidList(seat);
+                                      .addToPaidList(seat, context);
                                   // print(provider.paidSeats.length);
                                   // print(isPaid);
                                 },

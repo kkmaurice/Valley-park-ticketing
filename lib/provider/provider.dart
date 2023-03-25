@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tickler/widgets/dialoge.dart';
 import '../model/seats_model.dart';
 
 class Controller with ChangeNotifier {
@@ -14,11 +15,21 @@ class Controller with ChangeNotifier {
         (index) => Seats(seatNumber: index + 1, isPaid: false));
   }
 
-  void addToPaidList(Seats seat) {
+  void addToPaidList(Seats seat, BuildContext context) {
     if (!_paidSeats.contains(seat.seatNumber)) {
       _paidSeats.add(seat.seatNumber);
     } else {
-      _paidSeats.remove(seat.seatNumber);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CheckDialog(
+              onClick: () {
+                _paidSeats.remove(seat.seatNumber);
+                Navigator.of(context).pop();
+                notifyListeners();
+              },
+            );
+          });
     }
     notifyListeners();
   }
