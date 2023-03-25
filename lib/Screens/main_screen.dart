@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tickler/widgets/dialoge.dart';
 
 import '../provider/provider.dart';
 
@@ -69,8 +70,39 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             dropDownMenu(),
                             const SizedBox(
-                              height: 20,
+                              height: 30,
                             ),
+                            // elevated button to clear the selected value
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 12, right: 12),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      clearSeatsDialog(context, provider2);
+                                    },
+                                    child: const Text('Clear'),
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      resetPaidSeatsDialog(context, provider2);
+                                    },
+                                    child: const Text('Reset'),
+                                  )
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -134,8 +166,7 @@ class _MainScreenState extends State<MainScreen> {
                                       : const SizedBox(),
                                   Text(
                                       provider.selectedValue != null
-                                          ? 
-                                          provider.selectedValue.toString()
+                                          ? provider.selectedValue.toString()
                                           : '0',
                                       style: const TextStyle(
                                         fontSize: 20,
@@ -233,7 +264,6 @@ class _MainScreenState extends State<MainScreen> {
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(35),
                           topRight: Radius.circular(35),
-                       
                         ),
                       ),
                       child: ListView.builder(
@@ -321,6 +351,63 @@ class _MainScreenState extends State<MainScreen> {
                 ]),
           )),
     );
+  }
+
+  Future<dynamic> clearSeatsDialog(BuildContext context, Controller provider2) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Are you sure you want to clear all the seats?',
+              style: TextStyle(color: Colors.black),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  provider2.clearSeats();
+                  Navigator.pop(context);
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<dynamic> resetPaidSeatsDialog(
+      BuildContext context, Controller provider2) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text(
+              'Are you sure you want to reset the paid seats?',
+              style: TextStyle(color: Colors.black),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  provider2.resetPaidSeats();
+                  Navigator.pop(context);
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          );
+        });
   }
 
   DropdownButtonHideUnderline dropDownMenu() {

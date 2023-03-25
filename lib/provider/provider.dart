@@ -15,6 +15,19 @@ class Controller with ChangeNotifier {
         (index) => Seats(seatNumber: index + 1, isPaid: false));
   }
 
+  // clear seats
+  void clearSeats() {
+    //_paidSeats.clear();
+    selectedValue = null;
+    notifyListeners();
+  }
+
+  // reset seats
+  void resetPaidSeats() {
+    _paidSeats.clear();
+    notifyListeners();
+  }
+
   void addToPaidList(Seats seat, BuildContext context) {
     if (!_paidSeats.contains(seat.seatNumber)) {
       _paidSeats.add(seat.seatNumber);
